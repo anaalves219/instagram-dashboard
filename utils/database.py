@@ -13,7 +13,7 @@ class Database:
             self.supabase: Client = create_client(self.supabase_url, self.supabase_key)
         else:
             self.supabase = None
-            st.warning("⚠️ Configuração do Supabase não encontrada. Usando dados de exemplo.")
+            # Não mostrar warning aqui - será mostrado nas funções específicas
     
     def is_connected(self):
         return self.supabase is not None

@@ -19,6 +19,20 @@ def show_page():
     # Inicializar database
     db = Database()
     
+    # Verificar se Supabase está configurado
+    if not db.is_connected():
+        st.error("""
+        ### ⚠️ Supabase Não Configurado
+        
+        Para usar o dashboard com dados reais:
+        1. **Configure o Supabase** seguindo o arquivo `SUPABASE_SETUP.md`
+        2. **Adicione suas credenciais** nos secrets do Streamlit Cloud
+        3. **Aguarde o restart** automático do app
+        
+        📋 **Instruções completas:** Veja o arquivo `SUPABASE_SETUP.md` no repositório
+        """)
+        return
+    
     # Período de análise
     col1, col2, col3 = st.columns([1, 1, 2])
     

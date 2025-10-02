@@ -15,6 +15,29 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
+# CSS para forçar sidebar sempre visível
+st.markdown("""
+<style>
+/* Forçar sidebar sempre visível */
+.css-1d391kg, [data-testid="stSidebar"] {
+    display: block !important;
+    visibility: visible !important;
+    width: 300px !important;
+}
+
+/* Botão de colapsar sidebar */
+[data-testid="collapsedControl"] {
+    display: none !important;
+}
+
+/* Container principal */
+.main .block-container {
+    padding-left: 1rem !important;
+    max-width: none !important;
+}
+</style>
+""", unsafe_allow_html=True)
+
 # Import das páginas
 from pages import overview, vendas, leads, batalha, financeiro, config
 from utils.auth import check_authentication, login_page
@@ -29,14 +52,6 @@ def init_database():
 def main():
     # Aplicar CSS customizado
     apply_custom_css()
-    
-    # Forçar sidebar visível
-    st.markdown("""
-    <style>
-    .css-1d391kg {display: block !important;}
-    [data-testid="stSidebar"] {display: block !important;}
-    </style>
-    """, unsafe_allow_html=True)
     
     # Verificar autenticação
     if not check_authentication():
