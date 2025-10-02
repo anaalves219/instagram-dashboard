@@ -9,6 +9,9 @@ from utils.auth import get_current_user
 def show_page():
     """Página de Leads - Pipeline de vendas e follow-up"""
     
+    # Force clear cache
+    st.cache_data.clear()
+    
     st.title("🎯 Gestão de Leads")
     st.markdown("**Pipeline de vendas, classificação e follow-up de leads**")
     
