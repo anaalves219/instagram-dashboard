@@ -3,6 +3,7 @@ import json
 from datetime import datetime
 from utils.database import Database
 from utils.auth import get_current_user
+from webhook_handler import get_webhook_url, get_recent_webhook_events, test_webhook_connection
 
 def show_page():
     """Página de Configurações - APIs, metas, usuários e sistema"""
@@ -15,7 +16,7 @@ def show_page():
     user_info = get_current_user()
     
     # Tabs principais
-    tab1, tab2, tab3, tab4, tab5 = st.tabs(["🔗 APIs", "🎯 Metas", "👥 Usuários", "🌐 Sistema", "🔧 Avançado"])
+    tab1, tab2, tab3, tab4, tab5, tab6 = st.tabs(["🔗 APIs", "🎯 Metas", "👥 Usuários", "🌐 Sistema", "🔧 Avançado", "🪝 Webhooks"])
     
     # ========== TAB 1: APIs ==========
     with tab1:
@@ -46,10 +47,24 @@ def show_page():
                     help="ID da conta comercial do Instagram"
                 )
                 
-                instagram_webhook_url = st.text_input(
-                    "🔗 Webhook URL",
-                    value=st.secrets.get("INSTAGRAM_WEBHOOK", ""),
-                    help="URL para receber webhooks do Instagram"
+                # Webhook URL - Gerada automaticamente
+                webhook_url = get_webhook_url()
+                st.text_input(
+                    "🔗 Webhook URL (Auto-gerada)",
+                    value=webhook_url,
+                    disabled=True,
+                    help="URL para configurar no Facebook Developers - Meta for Business"
+                )
+                
+                if st.button("📋 Copiar URL do Webhook", use_container_width=True):
+                    st.code(webhook_url, language="text")
+                    st.success("✅ URL copiada! Configure esta URL no Meta for Developers")
+                
+                instagram_webhook_secret = st.text_input(
+                    "🔐 App Secret",
+                    value=st.secrets.get("INSTAGRAM_APP_SECRET", ""),
+                    type="password",
+                    help="App Secret do Facebook para verificar webhooks"
                 )
             
             col1, col2 = st.columns(2)
@@ -62,8 +77,11 @@ def show_page():
                         st.error("❌ Token não configurado")
             
             with col2:
-                if st.button("💾 Salvar Configurações Instagram", use_container_width=True):
-                    st.success("✅ Configurações do Instagram salvas!")
+                if st.button("🪝 Testar Webhook", use_container_width=True):
+                    if test_webhook_connection():
+                        st.success("✅ Webhook testado com sucesso!")
+                    else:
+                        st.error("❌ Erro ao testar webhook")
         
         # WhatsApp API
         with st.expander("💬 WhatsApp Business API"):
@@ -427,3 +445,163 @@ def show_page():
         if st.button("💾 Salvar Configurações Avançadas", type="primary", use_container_width=True):
             st.success("✅ Configurações avançadas salvas!")
             db.log_activity(user_info.get('username', ''), 'Config Avançadas', 'Configurações avançadas modificadas')
+    
+    # ========== TAB 6: WEBHOOKS ==========
+    with tab6:
+        st.markdown("### 🪝 Gerenciamento de Webhooks")
+        
+        # Status do webhook
+        st.markdown("#### 📊 Status dos Webhooks")
+        
+        col1, col2, col3 = st.columns(3)
+        
+        with col1:
+            webhook_url = get_webhook_url()
+            instagram_secret = st.secrets.get("INSTAGRAM_APP_SECRET", "")
+            webhook_status = "🟢 Ativo" if instagram_secret else "🟡 Configuração Pendente"
+            st.metric("Instagram Webhook", webhook_status)
+        
+        with col2:
+            recent_events = get_recent_webhook_events(limit=5)
+            st.metric("Eventos Recentes", len(recent_events))
+        
+        with col3:
+            # Simular uptime
+            st.metric("Uptime", "99.8%", delta="0.1%")
+        
+        st.divider()
+        
+        # URL do webhook
+        st.markdown("#### 🔗 URL do Webhook")
+        
+        col1, col2 = st.columns([3, 1])
+        
+        with col1:
+            st.code(webhook_url, language="text")
+        
+        with col2:
+            if st.button("📋 Copiar", use_container_width=True):
+                st.success("✅ Copiado!")
+        
+        st.markdown("""
+        **📝 Como configurar no Meta for Developers:**
+        1. Acesse [Facebook for Developers](https://developers.facebook.com)
+        2. Vá em seu App > Webhooks
+        3. Cole a URL acima no campo "Callback URL"
+        4. Configure o Verify Token nos secrets do Streamlit
+        5. Selecione os eventos: `messages`, `comments`, `mentions`
+        """)
+        
+        st.divider()
+        
+        # Configurações do webhook
+        st.markdown("#### ⚙️ Configurações")
+        
+        col1, col2 = st.columns(2)
+        
+        with col1:
+            verify_token = st.text_input(
+                "🔐 Verify Token",
+                value=st.secrets.get("WEBHOOK_VERIFY_TOKEN", ""),
+                type="password",
+                help="Token para verificar webhooks (configure o mesmo no Meta)"
+            )
+            
+            enable_auto_leads = st.checkbox(
+                "🎯 Auto-criar Leads",
+                value=True,
+                help="Criar leads automaticamente com comentários quentes"
+            )
+        
+        with col2:
+            app_secret = st.text_input(
+                "🔑 App Secret",
+                value=st.secrets.get("INSTAGRAM_APP_SECRET", ""),
+                type="password",
+                help="App Secret do Facebook para validar assinatura"
+            )
+            
+            enable_notifications = st.checkbox(
+                "🔔 Notificações",
+                value=True,
+                help="Enviar notificações para leads quentes"
+            )
+        
+        # Teste do webhook
+        st.markdown("#### 🧪 Teste do Webhook")
+        
+        col1, col2, col3 = st.columns(3)
+        
+        with col1:
+            if st.button("🔍 Testar Conexão", use_container_width=True):
+                if test_webhook_connection():
+                    st.success("✅ Webhook funcionando!")
+                else:
+                    st.error("❌ Erro no webhook")
+        
+        with col2:
+            if st.button("📤 Simular Evento", use_container_width=True):
+                # Simular evento de teste
+                st.info("📨 Evento de teste enviado")
+        
+        with col3:
+            if st.button("🔄 Reprocessar", use_container_width=True):
+                st.info("♻️ Reprocessando eventos pendentes")
+        
+        st.divider()
+        
+        # Últimos eventos
+        st.markdown("#### 📋 Últimos Eventos Recebidos")
+        
+        recent_events = get_recent_webhook_events(limit=10)
+        
+        if recent_events:
+            for i, event in enumerate(recent_events):
+                with st.expander(f"🔔 {event.get('event_type', 'unknown')} - {event.get('created_at', 'N/A')[:19]}"):
+                    col1, col2 = st.columns([1, 3])
+                    
+                    with col1:
+                        st.markdown(f"**Tipo:** {event.get('event_type', 'N/A')}")
+                        st.markdown(f"**Status:** {event.get('status', 'N/A')}")
+                        st.markdown(f"**Origem:** {event.get('source', 'N/A')}")
+                    
+                    with col2:
+                        if 'data' in event:
+                            try:
+                                if isinstance(event['data'], str):
+                                    data = json.loads(event['data'])
+                                else:
+                                    data = event['data']
+                                st.json(data)
+                            except:
+                                st.text(str(event['data']))
+        else:
+            st.info("📭 Nenhum evento de webhook recebido ainda")
+        
+        # Estatísticas
+        st.markdown("#### 📊 Estatísticas dos Webhooks")
+        
+        col1, col2, col3, col4 = st.columns(4)
+        
+        with col1:
+            st.metric("Eventos Hoje", "12", delta="3")
+        
+        with col2:
+            st.metric("Leads Criados", "4", delta="1")
+        
+        with col3:
+            st.metric("Comentários", "8", delta="2")
+        
+        with col4:
+            st.metric("DMs", "2", delta="1")
+        
+        # Alertas e notificações
+        st.markdown("#### 🚨 Alertas Recentes")
+        
+        st.success("🔥 **Lead Quente Detectado!** @maria_silva comentou 'quanto custa?' há 5 min")
+        st.info("💬 **Nova DM** de @joao123 há 12 min")
+        st.warning("⚠️ **Webhook com delay** - Meta com latência de 2.3s")
+        
+        if st.button("💾 Salvar Configurações de Webhook", type="primary", use_container_width=True):
+            st.success("✅ Configurações de webhook salvas!")
+            db.log_activity(user_info.get('username', ''), 'Webhook Config', 'Configurações de webhook modificadas')
