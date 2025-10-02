@@ -28,7 +28,11 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # Import das páginas
-from pages import overview, vendas, leads, batalha, financeiro, config
+try:
+    from pages import overview, vendas, leads, batalha, financeiro, config
+except Exception as e:
+    st.error(f"Erro ao importar páginas: {e}")
+    st.stop()
 from utils.auth import check_authentication, login_page
 from utils.database import Database
 from utils.styles import apply_custom_css
@@ -86,7 +90,11 @@ def main():
     elif selected == "💰 Vendas":
         vendas.show_page()
     elif selected == "🎯 Leads":
-        leads.show_page()
+        try:
+            leads.show_page()
+        except Exception as e:
+            st.error(f"❌ Erro na página de Leads: {e}")
+            st.info("🔧 A página está sendo corrigida. Tente outra página.")
     elif selected == "⚔️ Batalha":
         batalha.show_page()
     elif selected == "💳 Financeiro":

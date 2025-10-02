@@ -5,7 +5,7 @@ from utils.database import Database
 from utils.auth import get_current_user
 
 def show_page():
-    """Página de Leads - Versão simplificada"""
+    """Página de Leads - Versão simplificada v2.0"""
     
     st.title("🎯 Gestão de Leads")
     st.markdown("**Pipeline de vendas e classificação de leads**")
