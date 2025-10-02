@@ -236,7 +236,6 @@ def show_page():
                             # Calcular dias desde última interação
                             if lead.get('ultima_interacao'):
                                 try:
-                                    from datetime import datetime
                                     ultima_data = pd.to_datetime(lead['ultima_interacao']).date()
                                     dias_sem_contato = (date.today() - ultima_data).days
                                     

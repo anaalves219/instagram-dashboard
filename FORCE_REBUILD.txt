@@ -1,4 +1,5 @@
-This file forces a complete rebuild - timestamp: 2024-10-02 01:05
+This file forces a complete rebuild - timestamp: 2024-10-02 01:10
+CRITICAL FIX: UnboundLocalError datetime import duplicado corrigido
 COMPLETE RLS SYSTEM - TABLES AND VIEWS CORRECTLY HANDLED
 SMART RLS: TODOS VEEM TUDO - CADA UM EDITA O SEU
 TABELAS RLS: vendas, leads, metas, custos, activity_logs, configuracoes, notificacoes
