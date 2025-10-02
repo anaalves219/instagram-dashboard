@@ -1,4 +1,6 @@
-This file forces a complete rebuild - timestamp: 2024-10-02 01:25
+This file forces a complete rebuild - timestamp: 2024-10-02 01:30
+REMOVE: Página Batalha removida do sistema - backup criado
+MENU: Sistema simplificado com 5 páginas principais
 CRITICAL FIX: AttributeError em leads.py - cálculo de dias sem contato corrigido
 URGENT RLS FIX: Script fix_rls_urgent.sql criado para resolver erro imediatamente
 FEATURE: AUTO-CRIAÇÃO DE LEADS A PARTIR DE VENDAS IMPLEMENTADA

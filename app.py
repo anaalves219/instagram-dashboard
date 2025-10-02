@@ -29,7 +29,7 @@ st.markdown("""
 
 # Import das páginas
 try:
-    from pages import overview, vendas, leads, batalha, financeiro, config
+    from pages import overview, vendas, leads, financeiro, config
 except Exception as e:
     st.error(f"Erro ao importar páginas: {e}")
     st.stop()
@@ -116,8 +116,8 @@ def main():
         user_info = st.session_state.get('user_info', {})
         st.markdown(f"**Olá, {user_info.get('name', 'Usuário')}!** 👋")
         
-        # Menu principal - versão completa
-        pages = ["📈 Overview", "💰 Vendas", "🎯 Leads", "⚔️ Batalha", "💳 Financeiro", "⚙️ Config"]
+        # Menu principal - versão simplificada
+        pages = ["📈 Overview", "💰 Vendas", "🎯 Leads", "💳 Financeiro", "⚙️ Config"]
         selected = st.selectbox("Navegar para:", pages, key="main_menu")
         
         # Tema do usuário
@@ -142,8 +142,6 @@ def main():
         vendas.show_page()
     elif selected == "🎯 Leads":
         leads.show_page()
-    elif selected == "⚔️ Batalha":
-        batalha.show_page()
     elif selected == "💳 Financeiro":
         financeiro.show_page()
     elif selected == "⚙️ Config":
