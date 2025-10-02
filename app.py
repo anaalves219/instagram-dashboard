@@ -85,16 +85,48 @@ def main():
         pointer-events: none !important;
         opacity: 0 !important;
     }
+    
+    /* OCULTAR navegação automática de arquivos */
+    [data-testid="stSidebarNav"],
+    .css-1544g2n,
+    .css-17eq0hr,
+    section[data-testid="stSidebar"] > div:first-child > div:first-child {
+        display: none !important;
+        visibility: hidden !important;
+        height: 0 !important;
+        overflow: hidden !important;
+    }
+    
+    /* OCULTAR links de arquivos .py/.md na sidebar */
+    [data-testid="stSidebar"] a[href*=".py"],
+    [data-testid="stSidebar"] a[href*=".md"],
+    [data-testid="stSidebar"] [class*="nav"] {
+        display: none !important;
+    }
     </style>
     
     <script>
-    // JavaScript para bloquear colapso
+    // JavaScript para bloquear colapso e remover navegação
     setTimeout(function() {
         // Remover todos os botões de colapso
         const collapseButtons = document.querySelectorAll('[data-testid="collapsedControl"], button[kind="header"]');
         collapseButtons.forEach(btn => {
             btn.style.display = 'none';
             btn.remove();
+        });
+        
+        // Remover navegação automática de arquivos
+        const sidebarNav = document.querySelectorAll('[data-testid="stSidebarNav"], .css-1544g2n, .css-17eq0hr');
+        sidebarNav.forEach(nav => {
+            nav.style.display = 'none';
+            nav.remove();
+        });
+        
+        // Remover links de arquivos .py/.md
+        const fileLinks = document.querySelectorAll('[data-testid="stSidebar"] a[href*=".py"], [data-testid="stSidebar"] a[href*=".md"]');
+        fileLinks.forEach(link => {
+            link.style.display = 'none';
+            link.remove();
         });
         
         // Forçar sidebar sempre aberta
