@@ -71,10 +71,32 @@ def show_page():
             
             with col1:
                 if st.button("🧪 Testar Conexão Instagram", use_container_width=True):
-                    if instagram_token:
-                        st.success("✅ Conexão com Instagram estabelecida!")
-                    else:
+                    if not instagram_token:
                         st.error("❌ Token não configurado")
+                    elif not st.secrets.get("INSTAGRAM_BUSINESS_ID"):
+                        st.error("❌ Business ID não configurado")
+                    else:
+                        try:
+                            from pages.instagram_analytics import InstagramAPI
+                            api = InstagramAPI()
+                            result = api.get_account_info()
+                            
+                            if result and 'error' not in result:
+                                st.success(f"✅ Conectado! Conta: @{result.get('username', 'N/A')}")
+                                st.info(f"📊 {result.get('followers_count', 0)} seguidores | {result.get('media_count', 0)} posts")
+                            elif result and 'error' in result:
+                                error_msg = result['error'].get('message', 'Erro desconhecido')
+                                st.error(f"❌ Erro da API: {error_msg}")
+                                if 'access token' in error_msg.lower():
+                                    st.info("💡 Verifique se o token está válido e não expirou")
+                                elif 'permissions' in error_msg.lower():
+                                    st.info("💡 Verifique se o token tem permissões de business account")
+                            else:
+                                st.error("❌ Sem resposta da API Instagram")
+                                st.info("💡 Verifique sua conexão ou tente mais tarde")
+                        except Exception as e:
+                            st.error(f"❌ Erro no teste: {str(e)}")
+                            st.info("💡 Verifique se todas as configurações estão corretas")
             
             with col2:
                 if st.button("🪝 Testar Webhook", use_container_width=True):
@@ -147,7 +169,21 @@ def show_page():
         col1, col2, col3 = st.columns(3)
         
         with col1:
-            instagram_status = "🟢 Conectado" if instagram_token else "🔴 Desconectado"
+            # Teste real de conectividade
+            if instagram_token and st.secrets.get("INSTAGRAM_BUSINESS_ID"):
+                try:
+                    # Importar e testar a API aqui
+                    from pages.instagram_analytics import InstagramAPI
+                    api = InstagramAPI()
+                    test_result = api.get_account_info()
+                    if test_result and 'error' not in test_result:
+                        instagram_status = "🟢 Conectado e Funcionando"
+                    else:
+                        instagram_status = "🟡 Token Configurado (Verificar)"
+                except:
+                    instagram_status = "🟡 Token Configurado (Verificar)"
+            else:
+                instagram_status = "🔴 Não Configurado"
             st.markdown(f"**Instagram:** {instagram_status}")
         
         with col2:
