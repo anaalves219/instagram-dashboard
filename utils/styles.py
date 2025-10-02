@@ -18,9 +18,47 @@ def apply_custom_css():
     footer {visibility: hidden;}
     header {visibility: hidden;}
     
-    /* Configuração da sidebar */
+    /* Configuração da sidebar - SEMPRE VISÍVEL */
     .css-1d391kg {
         background: linear-gradient(180deg, #0E1117 0%, #1E1E2E 100%);
+    }
+    
+    /* Forçar sidebar sempre visível */
+    [data-testid="stSidebar"] {
+        display: block !important;
+        visibility: visible !important;
+        min-width: 10% !important;
+        width: auto !important;
+        position: relative !important;
+    }
+    
+    [data-testid="stSidebar"] > div {
+        display: block !important;
+        visibility: visible !important;
+        min-width: 200px !important;
+    }
+    
+    /* Botão de colapsar sidebar */
+    [data-testid="collapsedControl"] {
+        display: none !important;
+    }
+    
+    /* Container principal ajustado */
+    .main .block-container {
+        padding-left: 1rem !important;
+        max-width: none !important;
+    }
+    
+    /* Responsivo - em mobile reduz para 10% */
+    @media (max-width: 768px) {
+        [data-testid="stSidebar"] {
+            min-width: 10% !important;
+            max-width: 250px !important;
+        }
+        
+        [data-testid="stSidebar"] > div {
+            min-width: 150px !important;
+        }
     }
     
     /* Cards principais */

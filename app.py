@@ -54,8 +54,23 @@ def main():
     # Inicializar database
     db = init_database()
     
-    # Forçar criação da sidebar
+    # Forçar criação e visibilidade da sidebar
     st.sidebar.empty()
+    
+    # CSS adicional para forçar sidebar
+    st.markdown("""
+    <style>
+    [data-testid="stSidebar"] {
+        display: block !important;
+        visibility: visible !important;
+        min-width: 10% !important;
+    }
+    [data-testid="stSidebar"] > div {
+        min-width: 200px !important;
+        display: block !important;
+    }
+    </style>
+    """, unsafe_allow_html=True)
     
     # Sidebar com menu
     with st.sidebar:
