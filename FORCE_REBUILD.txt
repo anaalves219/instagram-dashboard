@@ -13,3 +13,8 @@ INTELIGÊNCIA: Venda cria lead automaticamente se não existir
 SMART UPDATE: Lead existente atualizado para 'fechado' automaticamente
 SIDEBAR COMPLETELY LOCKED - NO COLLAPSE OPTION REMOVED
 LEADS PAGE UPDATED WITH ADVANCED FEATURES
+INSTAGRAM ANALYTICS PÁGINA COMPLETA IMPLEMENTADA
+FEATURES: Métricas reais, gráficos avançados, análise de hashtags, demografia
+API: Instagram Basic Display + Graph API com cache e rate limiting
+CONFIGURAÇÃO: Script automático para obter token de longo prazo
+INTEGRAÇÃO: Correlação com vendas e leads do dashboard

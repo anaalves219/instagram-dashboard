@@ -29,7 +29,7 @@ st.markdown("""
 
 # Import das páginas
 try:
-    from pages import overview, vendas, leads, financeiro, config
+    from pages import overview, vendas, leads, financeiro, config, instagram_analytics
 except Exception as e:
     st.error(f"Erro ao importar páginas: {e}")
     st.stop()
@@ -149,7 +149,7 @@ def main():
         st.markdown(f"**Olá, {user_info.get('name', 'Usuário')}!** 👋")
         
         # Menu principal - versão simplificada
-        pages = ["📈 Overview", "💰 Vendas", "🎯 Leads", "💳 Financeiro", "⚙️ Config"]
+        pages = ["📈 Overview", "💰 Vendas", "🎯 Leads", "📱 Instagram Analytics", "💳 Financeiro", "⚙️ Config"]
         selected = st.selectbox("Navegar para:", pages, key="main_menu")
         
         # Tema do usuário
@@ -174,6 +174,8 @@ def main():
         vendas.show_page()
     elif selected == "🎯 Leads":
         leads.show_page()
+    elif selected == "📱 Instagram Analytics":
+        instagram_analytics.show_page()
     elif selected == "💳 Financeiro":
         financeiro.show_page()
     elif selected == "⚙️ Config":
