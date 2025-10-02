@@ -100,14 +100,27 @@ def authenticate_with_google():
     """Processo completo de autenticação com Google"""
     
     # Verificar se há código de autorização na URL
+    code = None
     try:
         query_params = st.query_params
+        if "code" in query_params:
+            code = query_params["code"]
     except:
         # Fallback para versão mais antiga do Streamlit
-        query_params = st.experimental_get_query_params()
+        try:
+            query_params = st.experimental_get_query_params()
+            if "code" in query_params:
+                code = query_params["code"][0]
+        except:
+            return False
     
-    if "code" in query_params:
-        code = query_params["code"][0]
+    if code:
+        # Debug: mostrar código recebido (apenas primeiros caracteres por segurança)
+        st.write(f"🔍 Debug: Código OAuth recebido: {code[:20]}...")
+        
+        # Limpar código se necessário (remover espaços, quebras de linha)
+        import urllib.parse
+        code = urllib.parse.unquote(code.strip())
         
         # Trocar código por token
         token_data = exchange_code_for_token(code)
