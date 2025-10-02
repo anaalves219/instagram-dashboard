@@ -314,7 +314,11 @@ def show_page():
         # Leads que precisam de follow-up
         hoje = date.today()
         leads_df['ultima_interacao_date'] = pd.to_datetime(leads_df['ultima_interacao'], errors='coerce').dt.date
-        leads_df['dias_sem_contato'] = (hoje - leads_df['ultima_interacao_date']).dt.days
+        
+        # Calcular dias sem contato corretamente
+        leads_df['dias_sem_contato'] = leads_df['ultima_interacao_date'].apply(
+            lambda x: (hoje - x).days if pd.notna(x) else 999
+        )
         
         # Classificar por urgência
         leads_urgentes = leads_df[leads_df['dias_sem_contato'] > 3]
