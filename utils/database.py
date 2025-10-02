@@ -37,7 +37,8 @@ class Database:
     def get_vendas(self, start_date=None, end_date=None):
         """Busca vendas com filtros de data"""
         if not self.is_connected():
-            return self._get_mock_vendas()
+            st.error("⚠️ **Supabase não configurado!** Configure SUPABASE_URL e SUPABASE_ANON_KEY nos secrets.")
+            return pd.DataFrame()
         
         try:
             query = self.supabase.table('vendas').select('*')
@@ -51,13 +52,13 @@ class Database:
             return pd.DataFrame(result.data)
         except Exception as e:
             st.error(f"Erro ao buscar vendas: {e}")
-            return self._get_mock_vendas()
+            return pd.DataFrame()
     
     def add_venda(self, venda_data):
         """Adiciona nova venda"""
         if not self.is_connected():
-            st.success("✅ Venda adicionada (modo demo)")
-            return True
+            st.error("⚠️ Configure o Supabase para adicionar vendas!")
+            return False
         
         try:
             result = self.supabase.table('vendas').insert(venda_data).execute()
@@ -96,7 +97,8 @@ class Database:
     def get_leads(self, status=None):
         """Busca leads com filtro de status"""
         if not self.is_connected():
-            return self._get_mock_leads()
+            st.error("⚠️ **Supabase não configurado!** Configure SUPABASE_URL e SUPABASE_ANON_KEY nos secrets.")
+            return pd.DataFrame()
         
         try:
             query = self.supabase.table('leads').select('*')
@@ -108,13 +110,13 @@ class Database:
             return pd.DataFrame(result.data)
         except Exception as e:
             st.error(f"Erro ao buscar leads: {e}")
-            return self._get_mock_leads()
+            return pd.DataFrame()
     
     def add_lead(self, lead_data):
         """Adiciona novo lead"""
         if not self.is_connected():
-            st.success("✅ Lead adicionado (modo demo)")
-            return True
+            st.error("⚠️ Configure o Supabase para adicionar leads!")
+            return False
         
         try:
             result = self.supabase.table('leads').insert(lead_data).execute()
@@ -192,7 +194,7 @@ class Database:
     def get_activity_logs(self, user_id=None, limit=50):
         """Busca logs de atividade"""
         if not self.is_connected():
-            return self._get_mock_activity_logs()
+            return pd.DataFrame()
         
         try:
             query = self.supabase.table('activity_logs').select('*')
@@ -204,7 +206,7 @@ class Database:
             return pd.DataFrame(result.data)
         except Exception as e:
             st.error(f"Erro ao buscar logs: {e}")
-            return self._get_mock_activity_logs()
+            return pd.DataFrame()
     
     def _get_mock_activity_logs(self):
         """Dados de exemplo para logs"""
