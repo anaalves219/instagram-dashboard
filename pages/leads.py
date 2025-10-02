@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, time
 from utils.database import Database
 from utils.auth import get_current_user
 
@@ -44,10 +44,15 @@ def show_page():
                 score = st.slider("⭐ Score do Lead", 1, 10, 5, 
                                 help="1 = Pouco interesse, 10 = Muito interessado")
                 valor_estimado = st.number_input("💰 Valor Estimado", min_value=0.0, value=1997.0, step=100.0)
-                data_agendamento = st.datetime_input(
-                    "📅 Agendamento",
+                data_agendamento = st.date_input(
+                    "📅 Data Agendamento",
                     value=None,
-                    help="Data e hora do próximo contato"
+                    help="Data do próximo contato"
+                )
+                hora_agendamento = st.time_input(
+                    "🕐 Hora Agendamento",
+                    value=None,
+                    help="Hora do próximo contato"
                 )
             
             nota = st.text_area("📝 Anotações", placeholder="Informações importantes sobre o lead...")
@@ -64,6 +69,13 @@ def show_page():
                 if not nome or not telefone:
                     st.error("❌ Preencha todos os campos obrigatórios!")
                 else:
+                    # Combinar data e hora de agendamento
+                    agendamento_completo = None
+                    if data_agendamento and hora_agendamento:
+                        agendamento_completo = datetime.combine(data_agendamento, hora_agendamento).isoformat()
+                    elif data_agendamento:
+                        agendamento_completo = datetime.combine(data_agendamento, time.min).isoformat()
+                    
                     lead_data = {
                         'nome': nome,
                         'instagram': instagram,
@@ -75,7 +87,7 @@ def show_page():
                         'nota': nota,
                         'score': score,
                         'ultima_interacao': datetime.now().date().strftime('%Y-%m-%d'),
-                        'data_agendamento': data_agendamento.isoformat() if data_agendamento else None,
+                        'data_agendamento': agendamento_completo,
                         'valor_estimado': valor_estimado,
                         'tags': tags,
                         'created_at': datetime.now().isoformat()
