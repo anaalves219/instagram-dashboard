@@ -30,6 +30,14 @@ def main():
     # Aplicar CSS customizado
     apply_custom_css()
     
+    # Forçar sidebar visível
+    st.markdown("""
+    <style>
+    .css-1d391kg {display: block !important;}
+    [data-testid="stSidebar"] {display: block !important;}
+    </style>
+    """, unsafe_allow_html=True)
+    
     # Verificar autenticação
     if not check_authentication():
         login_page()
