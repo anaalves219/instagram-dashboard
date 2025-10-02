@@ -38,9 +38,34 @@ def apply_custom_css():
         min-width: 200px !important;
     }
     
-    /* Botão de colapsar sidebar */
+    /* Remover COMPLETAMENTE opção de colapsar sidebar */
     [data-testid="collapsedControl"] {
         display: none !important;
+        visibility: hidden !important;
+        pointer-events: none !important;
+    }
+    
+    /* Remover seta de colapsar */
+    button[kind="header"] {
+        display: none !important;
+    }
+    
+    /* Remover qualquer controle de colapso */
+    [data-testid="stSidebarNav"] button {
+        display: none !important;
+    }
+    
+    /* Bloquear eventos de mouse no controle */
+    .css-1q8dd3e {
+        pointer-events: none !important;
+        display: none !important;
+    }
+    
+    /* Sidebar fixada permanentemente */
+    [data-testid="stSidebar"][aria-expanded="false"] {
+        width: 21rem !important;
+        min-width: 21rem !important;
+        transform: none !important;
     }
     
     /* Container principal ajustado */

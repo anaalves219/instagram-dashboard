@@ -57,19 +57,55 @@ def main():
     # Forçar criação e visibilidade da sidebar
     st.sidebar.empty()
     
-    # CSS adicional para forçar sidebar
+    # CSS e JS para BLOQUEAR completamente colapso da sidebar
     st.markdown("""
     <style>
+    /* Sidebar SEMPRE visível e sem colapso */
     [data-testid="stSidebar"] {
         display: block !important;
         visibility: visible !important;
-        min-width: 10% !important;
+        min-width: 21rem !important;
+        width: 21rem !important;
+        position: relative !important;
     }
     [data-testid="stSidebar"] > div {
-        min-width: 200px !important;
+        min-width: 21rem !important;
+        width: 21rem !important;
         display: block !important;
     }
+    
+    /* REMOVER todos os controles de colapso */
+    [data-testid="collapsedControl"],
+    button[kind="header"],
+    .css-1q8dd3e,
+    [aria-label*="collapse"],
+    [aria-label*="expand"] {
+        display: none !important;
+        visibility: hidden !important;
+        pointer-events: none !important;
+        opacity: 0 !important;
+    }
     </style>
+    
+    <script>
+    // JavaScript para bloquear colapso
+    setTimeout(function() {
+        // Remover todos os botões de colapso
+        const collapseButtons = document.querySelectorAll('[data-testid="collapsedControl"], button[kind="header"]');
+        collapseButtons.forEach(btn => {
+            btn.style.display = 'none';
+            btn.remove();
+        });
+        
+        // Forçar sidebar sempre aberta
+        const sidebar = document.querySelector('[data-testid="stSidebar"]');
+        if (sidebar) {
+            sidebar.style.transform = 'none';
+            sidebar.style.width = '21rem';
+            sidebar.style.minWidth = '21rem';
+        }
+    }, 100);
+    </script>
     """, unsafe_allow_html=True)
     
     # Sidebar com menu
