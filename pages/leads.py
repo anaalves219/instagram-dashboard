@@ -16,6 +16,27 @@ def format_instagram_link(instagram_value):
     instagram_url = f"https://instagram.com/{instagram_handle}"
     return f'📱 <a href="{instagram_url}" target="_blank">@{instagram_handle}</a>'
 
+def format_whatsapp_link(phone_value):
+    """Formata o telefone como link clicável para WhatsApp"""
+    if not phone_value:
+        return ""
+    
+    # Limpar e formatar número
+    phone_clean = ''.join(filter(str.isdigit, str(phone_value)))
+    
+    # Adicionar código do país se não tiver (assumir Brasil +55)
+    if len(phone_clean) == 11 and phone_clean.startswith('11'):  # Celular SP
+        phone_clean = '55' + phone_clean
+    elif len(phone_clean) == 11:  # Celular outros estados
+        phone_clean = '55' + phone_clean
+    elif len(phone_clean) == 10:  # Telefone fixo
+        phone_clean = '55' + phone_clean
+    elif not phone_clean.startswith('55'):
+        phone_clean = '55' + phone_clean
+    
+    whatsapp_url = f"https://wa.me/{phone_clean}"
+    return f'📞 <a href="{whatsapp_url}" target="_blank">{phone_value}</a>'
+
 def show_page():
     """Página de Leads - Sistema de pipeline de vendas v3.0"""
     
@@ -233,7 +254,9 @@ def show_page():
                         with col1:
                             st.markdown(f"**{lead['nome']}** ⭐ {lead['score']}/10")
                             if lead.get('telefone'):
-                                st.caption(f"📞 {lead['telefone']}")
+                                whatsapp_link = format_whatsapp_link(lead['telefone'])
+                                if whatsapp_link:
+                                    st.markdown(whatsapp_link, unsafe_allow_html=True)
                             if lead.get('instagram'):
                                 instagram_link = format_instagram_link(lead['instagram'])
                                 if instagram_link:
@@ -364,15 +387,22 @@ def show_page():
                     
                     with col1:
                         st.markdown(f"**{lead['nome']}** ⭐ {lead['score']}/10")
-                        # Telefone e Instagram
-                        contato_text = f"📞 {lead['telefone']}"
+                        # WhatsApp e Instagram clicáveis
+                        contato_parts = []
+                        
+                        # WhatsApp clicável
+                        if lead.get('telefone'):
+                            whatsapp_link = format_whatsapp_link(lead['telefone'])
+                            if whatsapp_link:
+                                contato_parts.append(whatsapp_link)
                         
                         # Instagram clicável
                         instagram_link = format_instagram_link(lead.get('instagram', ''))
                         if instagram_link:
-                            contato_text += f" | {instagram_link}"
+                            contato_parts.append(instagram_link)
                         
-                        st.markdown(contato_text, unsafe_allow_html=True)
+                        if contato_parts:
+                            st.markdown(" | ".join(contato_parts), unsafe_allow_html=True)
                     
                     with col2:
                         st.markdown(f"🎯 {lead['vendedor']}")
@@ -414,7 +444,13 @@ def show_page():
                 for i, lead in agendamentos_hoje.iterrows():
                     hora = f"{9 + i}:00"
                     st.markdown(f"🕘 **{hora}** - {lead['nome']} ({lead['vendedor']})")
-                    st.caption(f"📞 {lead['telefone']} | Status: {lead['status']}")
+                    # WhatsApp clicável na agenda
+                    telefone_agenda = format_whatsapp_link(lead['telefone'])
+                    if telefone_agenda:
+                        agenda_text = f"{telefone_agenda} | Status: {lead['status']}"
+                        st.markdown(agenda_text, unsafe_allow_html=True)
+                    else:
+                        st.caption(f"Status: {lead['status']}")
             else:
                 st.info("📅 Nenhum agendamento para hoje")
         
