@@ -11,9 +11,30 @@ class Database:
         
         if self.supabase_url and self.supabase_key:
             self.supabase: Client = create_client(self.supabase_url, self.supabase_key)
+            self._set_current_user()
         else:
             self.supabase = None
             # Não mostrar warning aqui - será mostrado nas funções específicas
+    
+    def _set_current_user(self):
+        """Define o usuário atual no contexto do Supabase para RLS"""
+        if not self.supabase:
+            return
+            
+        try:
+            # Pegar usuário da sessão
+            user_info = st.session_state.get('user_info', {})
+            current_user = user_info.get('name', '')
+            
+            if current_user:
+                # Definir variável de contexto para RLS
+                self.supabase.rpc('set_config', {
+                    'parameter': 'app.current_user_name',
+                    'value': current_user
+                }).execute()
+        except Exception:
+            # Se der erro, ignora (pode ser que a função não exista ainda)
+            pass
     
     def is_connected(self):
         return self.supabase is not None

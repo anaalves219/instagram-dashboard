@@ -87,6 +87,55 @@ Após configurar:
 - A ANON_KEY está incorreta
 - Copie novamente de Settings > API
 
+### ⚠️ "ROW LEVEL SECURITY VIOLATION" (MAIS COMUM)
+**ERRO:** `new row violates row-level security policy`
+
+**SOLUÇÃO RÁPIDA:**
+1. Vá no **Supabase SQL Editor**
+2. Copie todo conteúdo do arquivo `fix_rls_policies.sql`
+3. Execute no SQL Editor
+4. Clique "Run"
+
+**OU SOLUÇÃO MANUAL:**
+1. No Supabase: **Authentication** > **Policies**
+2. Para cada tabela (vendas, leads, metas, etc.):
+   - Delete todas as policies existentes
+   - Crie nova policy: "Enable all operations"
+   - Allowed operation: "All"
+   - Target roles: "authenticated" 
+   - USING expression: `true`
+   - WITH CHECK expression: `true`
+
+✅ **Isso permite todas as operações nas tabelas**
+
+### 🔒 "SMART RLS - SEGURANÇA AVANÇADA" (RECOMENDADO)
+**OBJETIVO:** Todos veem todos os dados, mas cada vendedor só edita o seu
+
+**SOLUÇÃO COMPLETA (3 scripts):**
+1. **DIAGNÓSTICO:** Vá no **Supabase SQL Editor**
+   - Copie todo conteúdo do arquivo `diagnose_tables.sql`
+   - Execute e veja quais tabelas existem
+
+2. **RLS PRINCIPAL:** No **Supabase SQL Editor**
+   - Copie todo conteúdo do arquivo `rls_smart_policies_safe.sql`
+   - Execute e aguarde mensagens de sucesso
+
+3. **RLS VIEWS FIX:** No **Supabase SQL Editor**
+   - Copie todo conteúdo do arquivo `rls_views_fix.sql`
+   - Execute para tratar views corretamente (leads_funil, performance_diaria, users, vendas_resumo são VIEWS, não tabelas)
+
+**✅ RESULTADO:**
+- **Ana** vê vendas de Fernando, mas só edita as suas
+- **Fernando** vê vendas de Ana, mas só edita as suas
+- **Relatórios** mostram dados de ambos
+- **Segurança** máxima - ninguém altera dados do outro
+
+**🎯 BENEFÍCIOS:**
+- Dashboard conjunto funcionando
+- Cada vendedor protegido
+- Transparência total nos dados
+- Relatórios comparativos precisos
+
 ## 📞 Suporte
 
 - **Supabase Docs**: https://supabase.com/docs
