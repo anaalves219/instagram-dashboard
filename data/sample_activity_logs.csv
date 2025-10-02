@@ -1,0 +1,101 @@
+user_id,action,details,timestamp
+fernando,Venda Removida,Ação executada por fernando,2025-09-25T20:26:56.216325
+ana,Venda Removida,Ação executada por ana,2025-09-03T06:22:56.216325
+fernando,Export Realizado,Export de relatório em CSV,2025-09-20T18:03:56.216325
+ana,Logout,Ação executada por ana,2025-09-30T16:36:56.216325
+fernando,Lead Atualizado,Ação executada por fernando,2025-09-10T11:55:56.216325
+ana,Configuração Alterada,Ação executada por ana,2025-09-17T07:41:56.216325
+ana,Lead Convertido,Ação executada por ana,2025-10-01T14:41:56.216325
+fernando,Venda Editada,Ação executada por fernando,2025-09-28T03:46:56.216325
+ana,Relatório Gerado,Ação executada por ana,2025-09-21T07:03:56.216325
+ana,Logout,Ação executada por ana,2025-09-13T07:08:56.216325
+ana,WhatsApp Enviado,Ação executada por ana,2025-09-16T06:29:56.216325
+ana,WhatsApp Enviado,Ação executada por ana,2025-09-12T11:53:56.216325
+ana,Nova Venda,"Venda de R$ 1,404.06 adicionada",2025-09-24T04:56:56.216325
+ana,Novo Lead,Lead com score 4 adicionado,2025-09-15T20:46:56.216325
+fernando,Logout,Ação executada por fernando,2025-09-08T08:38:56.216325
+ana,Logout,Ação executada por ana,2025-09-19T04:36:56.216325
+ana,Meta Atingida,"Meta mensal de R$ 59,743.04 atingida",2025-09-23T16:55:56.216325
+fernando,Follow-up Realizado,Ação executada por fernando,2025-09-21T00:37:56.216325
+ana,E-mail Enviado,Ação executada por ana,2025-09-13T01:22:56.216325
+fernando,Configuração Alterada,Ação executada por fernando,2025-09-24T12:06:56.216325
+ana,Venda Editada,Ação executada por ana,2025-09-18T14:05:56.216325
+ana,Relatório Gerado,Ação executada por ana,2025-09-27T17:02:56.216325
+ana,E-mail Enviado,Ação executada por ana,2025-09-29T01:47:56.216325
+fernando,Follow-up Realizado,Ação executada por fernando,2025-09-28T01:37:56.216325
+ana,Export Realizado,Export de vendas em CSV,2025-09-22T05:39:56.216325
+fernando,Login,Ação executada por fernando,2025-09-26T07:12:56.216325
+ana,Logout,Ação executada por ana,2025-09-01T22:47:56.216325
+ana,E-mail Enviado,Ação executada por ana,2025-09-13T14:54:56.216325
+ana,Venda Editada,Ação executada por ana,2025-09-21T03:10:56.216325
+fernando,Nova Venda,"Venda de R$ 1,799.20 adicionada",2025-09-26T22:54:56.216325
+ana,Relatório Gerado,Ação executada por ana,2025-09-23T23:42:56.216325
+ana,Login,Ação executada por ana,2025-09-21T07:16:56.216325
+ana,WhatsApp Enviado,Ação executada por ana,2025-09-07T05:13:56.216325
+fernando,Export Realizado,Export de leads em CSV,2025-09-30T06:16:56.216325
+ana,Venda Removida,Ação executada por ana,2025-09-26T10:03:56.216325
+fernando,Meta Atingida,"Meta mensal de R$ 52,199.36 atingida",2025-09-29T13:02:56.216325
+ana,Nova Venda,"Venda de R$ 2,148.55 adicionada",2025-09-30T04:51:56.216325
+fernando,Meta Atingida,"Meta mensal de R$ 52,277.25 atingida",2025-09-07T00:58:56.216325
+fernando,Novo Lead,Lead com score 1 adicionado,2025-09-30T05:02:56.216325
+fernando,WhatsApp Enviado,Ação executada por fernando,2025-09-07T01:05:56.216325
+fernando,Login,Ação executada por fernando,2025-09-08T09:01:56.216325
+fernando,Lead Atualizado,Ação executada por fernando,2025-09-11T05:46:56.216325
+fernando,Follow-up Realizado,Ação executada por fernando,2025-09-03T19:00:56.216325
+ana,Lead Atualizado,Ação executada por ana,2025-09-09T17:20:56.216325
+ana,Follow-up Realizado,Ação executada por ana,2025-09-10T17:08:56.216325
+fernando,WhatsApp Enviado,Ação executada por fernando,2025-09-01T05:54:56.216325
+fernando,E-mail Enviado,Ação executada por fernando,2025-09-27T13:13:56.216325
+fernando,Lead Convertido,Ação executada por fernando,2025-09-25T20:22:56.216325
+ana,Venda Removida,Ação executada por ana,2025-09-02T16:11:56.216325
+ana,Lead Atualizado,Ação executada por ana,2025-09-29T04:41:56.216325
+fernando,Follow-up Realizado,Ação executada por fernando,2025-09-27T08:01:56.216325
+fernando,Configuração Alterada,Ação executada por fernando,2025-08-31T23:59:56.216325
+ana,E-mail Enviado,Ação executada por ana,2025-09-15T21:13:56.216325
+fernando,Venda Removida,Ação executada por fernando,2025-09-06T16:58:56.216325
+ana,Logout,Ação executada por ana,2025-09-11T20:52:56.216325
+ana,E-mail Enviado,Ação executada por ana,2025-09-05T11:15:56.216325
+fernando,Lead Convertido,Ação executada por fernando,2025-09-29T18:25:56.216325
+fernando,Venda Editada,Ação executada por fernando,2025-09-08T18:12:56.216325
+fernando,Export Realizado,Export de relatório em CSV,2025-09-07T04:59:56.216325
+fernando,Venda Editada,Ação executada por fernando,2025-09-27T08:59:56.216325
+fernando,Meta Atingida,"Meta mensal de R$ 52,543.24 atingida",2025-09-07T15:33:56.216325
+ana,Export Realizado,Export de relatório em CSV,2025-09-22T21:33:56.216325
+fernando,Nova Venda,"Venda de R$ 2,304.69 adicionada",2025-09-23T16:14:56.216325
+ana,Nova Venda,"Venda de R$ 1,372.98 adicionada",2025-08-31T22:15:56.216325
+ana,Meta Atingida,"Meta mensal de R$ 34,471.55 atingida",2025-09-28T06:02:56.216325
+fernando,Lead Convertido,Ação executada por fernando,2025-09-09T05:36:56.216325
+ana,Venda Editada,Ação executada por ana,2025-09-21T06:54:56.216325
+ana,Login,Ação executada por ana,2025-09-17T04:48:56.216325
+ana,Logout,Ação executada por ana,2025-09-21T15:40:56.216325
+ana,Configuração Alterada,Ação executada por ana,2025-09-18T04:33:56.216325
+fernando,E-mail Enviado,Ação executada por fernando,2025-09-28T23:26:56.216325
+ana,Venda Editada,Ação executada por ana,2025-09-01T09:12:56.216325
+ana,WhatsApp Enviado,Ação executada por ana,2025-09-26T00:18:56.216325
+fernando,Venda Removida,Ação executada por fernando,2025-09-05T07:54:56.216325
+ana,WhatsApp Enviado,Ação executada por ana,2025-09-20T04:45:56.216325
+ana,Logout,Ação executada por ana,2025-09-30T12:02:56.216325
+ana,Lead Atualizado,Ação executada por ana,2025-09-08T11:23:56.216325
+ana,Meta Atingida,"Meta mensal de R$ 59,335.33 atingida",2025-09-24T01:26:56.216325
+fernando,Follow-up Realizado,Ação executada por fernando,2025-09-08T04:41:56.216325
+fernando,Configuração Alterada,Ação executada por fernando,2025-09-06T18:25:56.216325
+fernando,Novo Lead,Lead com score 3 adicionado,2025-09-06T07:26:56.216325
+ana,Novo Lead,Lead com score 4 adicionado,2025-09-25T17:48:56.216325
+ana,Lead Convertido,Ação executada por ana,2025-09-09T04:14:56.216325
+ana,Follow-up Realizado,Ação executada por ana,2025-09-12T08:37:56.216325
+fernando,Lead Atualizado,Ação executada por fernando,2025-09-20T13:33:56.216325
+ana,WhatsApp Enviado,Ação executada por ana,2025-09-09T19:41:56.216325
+fernando,Relatório Gerado,Ação executada por fernando,2025-09-23T19:09:56.216325
+fernando,Lead Convertido,Ação executada por fernando,2025-09-06T11:11:56.216325
+fernando,Meta Atingida,"Meta mensal de R$ 54,818.67 atingida",2025-09-12T15:03:56.216325
+ana,Follow-up Realizado,Ação executada por ana,2025-09-30T16:31:56.216325
+fernando,Lead Convertido,Ação executada por fernando,2025-09-25T18:52:56.216325
+fernando,Lead Atualizado,Ação executada por fernando,2025-10-01T01:18:56.216325
+ana,Lead Convertido,Ação executada por ana,2025-09-27T09:45:56.216325
+ana,Export Realizado,Export de leads em CSV,2025-09-21T11:18:56.216325
+ana,Venda Removida,Ação executada por ana,2025-09-08T09:23:56.216325
+ana,E-mail Enviado,Ação executada por ana,2025-09-07T09:39:56.216325
+ana,Follow-up Realizado,Ação executada por ana,2025-09-27T10:09:56.216325
+fernando,Export Realizado,Export de relatório em CSV,2025-09-30T14:06:56.216325
+fernando,Venda Removida,Ação executada por fernando,2025-09-02T04:23:56.216325
+fernando,Relatório Gerado,Ação executada por fernando,2025-09-14T01:53:56.216325

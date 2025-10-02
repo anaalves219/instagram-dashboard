@@ -1,0 +1,51 @@
+descricao,categoria,valor,data_custo,responsavel,recorrente,created_at
+Energia Elétrica,Operacional,529.88,2025-09-08,Empresa,True,2025-09-08T22:06:56.215322
+Notion Pro,Ferramentas,144.94,2025-09-03,Empresa,False,2025-09-03T22:06:56.215322
+Instagram Ads,Anúncios,3411.87,2025-09-07,Empresa,False,2025-09-07T22:06:56.215322
+Telefone,Operacional,984.17,2025-08-06,Ana,True,2025-08-06T22:06:56.215322
+Social Media,Salários,9906.63,2025-09-15,Fernando,False,2025-09-15T22:06:56.215322
+Domínio,Operacional,604.86,2025-09-12,Empresa,False,2025-09-12T22:06:56.215322
+Zoom Pro,Ferramentas,311.1,2025-07-17,Fernando,True,2025-07-17T22:06:56.215322
+Hotmart,Ferramentas,360.48,2025-09-05,Fernando,False,2025-09-05T22:06:56.215322
+Salário Ana,Salários,4615.75,2025-07-08,Ana,False,2025-07-08T22:06:56.215322
+Material Escritório,Operacional,864.81,2025-09-04,Ana,True,2025-09-04T22:06:56.215322
+Instagram Ads,Anúncios,5295.26,2025-08-30,Empresa,False,2025-08-30T22:06:56.215322
+YouTube Ads,Anúncios,5835.08,2025-09-03,Fernando,False,2025-09-03T22:06:56.215322
+Copywriter,Salários,10350.62,2025-09-20,Empresa,False,2025-09-20T22:06:56.215322
+Editor de Vídeo,Salários,4315.65,2025-09-06,Fernando,False,2025-09-06T22:06:56.215322
+Curso Marketing Digital,Treinamento,1948.41,2025-08-10,Empresa,False,2025-08-10T22:06:56.215322
+Streamlit Cloud,Ferramentas,153.01,2025-07-06,Empresa,False,2025-07-06T22:06:56.215322
+Supabase Pro,Ferramentas,61.62,2025-08-05,Empresa,False,2025-08-05T22:06:56.215322
+Editor de Vídeo,Salários,9409.19,2025-07-07,Ana,False,2025-07-07T22:06:56.215322
+Salário Ana,Salários,4395.07,2025-10-01,Fernando,False,2025-10-01T22:06:56.215322
+Google Ads - Janeiro,Anúncios,7854.46,2025-07-03,Fernando,False,2025-07-03T22:06:56.215322
+Google Ads - Janeiro,Anúncios,7841.6,2025-08-16,Fernando,False,2025-08-16T22:06:56.215322
+MailChimp,Ferramentas,85.39,2025-07-20,Fernando,False,2025-07-20T22:06:56.215322
+Social Media,Salários,13139.18,2025-07-19,Fernando,False,2025-07-19T22:06:56.215322
+Instagram Ads,Anúncios,3006.23,2025-07-22,Empresa,False,2025-07-22T22:06:56.215322
+Editor de Vídeo,Salários,9202.25,2025-07-20,Ana,False,2025-07-20T22:06:56.215322
+Social Media,Salários,13233.72,2025-08-21,Empresa,False,2025-08-21T22:06:56.215322
+RD Station,Ferramentas,226.14,2025-08-23,Fernando,False,2025-08-23T22:06:56.215322
+Treinamento Equipe,Treinamento,895.46,2025-07-05,Empresa,False,2025-07-05T22:06:56.215322
+Certificação Google,Treinamento,526.81,2025-07-29,Ana,False,2025-07-29T22:06:56.215322
+YouTube Ads,Anúncios,6341.03,2025-07-11,Ana,False,2025-07-11T22:06:56.215322
+Backup Cloud,Operacional,724.66,2025-08-08,Ana,True,2025-08-08T22:06:56.215322
+Facebook Ads - Janeiro,Anúncios,4440.89,2025-07-10,Empresa,False,2025-07-10T22:06:56.215322
+Curso Marketing Digital,Treinamento,1783.83,2025-09-24,Fernando,False,2025-09-24T22:06:56.215322
+Streamlit Cloud,Ferramentas,177.09,2025-08-23,Fernando,True,2025-08-23T22:06:56.215322
+Hotmart,Ferramentas,464.68,2025-07-08,Ana,True,2025-07-08T22:06:56.215322
+TikTok Ads,Anúncios,2200.18,2025-09-29,Fernando,False,2025-09-29T22:06:56.215322
+Editor de Vídeo,Salários,10700.04,2025-09-11,Ana,False,2025-09-11T22:06:56.215322
+Freelancer Design,Salários,5944.56,2025-07-30,Fernando,False,2025-07-30T22:06:56.215322
+Internet,Operacional,297.94,2025-09-02,Ana,True,2025-09-02T22:06:56.215322
+Notion Pro,Ferramentas,436.56,2025-08-06,Ana,True,2025-08-06T22:06:56.215322
+Telefone,Operacional,287.31,2025-07-10,Fernando,False,2025-07-10T22:06:56.215322
+RD Station,Ferramentas,204.36,2025-08-21,Ana,True,2025-08-21T22:06:56.215322
+RD Station,Ferramentas,160.85,2025-08-18,Fernando,False,2025-08-18T22:06:56.215322
+Hotmart,Ferramentas,136.8,2025-07-15,Ana,False,2025-07-15T22:06:56.215322
+Treinamento Equipe,Treinamento,1303.7,2025-07-21,Fernando,False,2025-07-21T22:06:56.215322
+Instagram Ads,Anúncios,5310.04,2025-07-15,Ana,False,2025-07-15T22:06:56.215322
+MailChimp,Ferramentas,429.69,2025-08-11,Empresa,True,2025-08-11T22:06:56.215322
+Mentoria Vendas,Treinamento,1527.92,2025-07-13,Fernando,False,2025-07-13T22:06:56.215322
+Salário Ana,Salários,7193.48,2025-08-18,Empresa,False,2025-08-18T22:06:56.215322
+Zoom Pro,Ferramentas,209.73,2025-09-02,Empresa,False,2025-09-02T22:06:56.215322
