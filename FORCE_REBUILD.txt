@@ -1,8 +1,9 @@
-This file forces a complete rebuild - timestamp: 2024-10-02 01:10
+This file forces a complete rebuild - timestamp: 2024-10-02 01:15
+FEATURE: AUTO-CRIAÇÃO DE LEADS A PARTIR DE VENDAS IMPLEMENTADA
+INTELIGÊNCIA: Venda cria lead automaticamente se não existir
+SMART UPDATE: Lead existente atualizado para 'fechado' automaticamente
 CRITICAL FIX: UnboundLocalError datetime import duplicado corrigido
 COMPLETE RLS SYSTEM - TABLES AND VIEWS CORRECTLY HANDLED
 SMART RLS: TODOS VEEM TUDO - CADA UM EDITA O SEU
-TABELAS RLS: vendas, leads, metas, custos, activity_logs, configuracoes, notificacoes
-VIEWS (herdam RLS): leads_funil, performance_diaria, users, vendas_resumo  
 SIDEBAR COMPLETELY LOCKED - NO COLLAPSE OPTION REMOVED
 LEADS PAGE UPDATED WITH ADVANCED FEATURES

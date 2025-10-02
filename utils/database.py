@@ -76,17 +76,81 @@ class Database:
             return pd.DataFrame()
     
     def add_venda(self, venda_data):
-        """Adiciona nova venda"""
+        """Adiciona nova venda e cria lead automaticamente se não existir"""
         if not self.is_connected():
             st.error("⚠️ Configure o Supabase para adicionar vendas!")
             return False
         
         try:
+            # 1. Adicionar a venda
             result = self.supabase.table('vendas').insert(venda_data).execute()
+            
+            # 2. Auto-criar lead se não existir
+            self._auto_create_lead_from_venda(venda_data)
+            
             return True
         except Exception as e:
             st.error(f"Erro ao adicionar venda: {e}")
             return False
+    
+    def _auto_create_lead_from_venda(self, venda_data):
+        """Cria lead automaticamente a partir dos dados da venda"""
+        try:
+            # Verificar se já existe lead com mesmo telefone ou email
+            telefone = venda_data.get('cliente_telefone', '')
+            email = venda_data.get('cliente_email', '')
+            nome = venda_data.get('cliente_nome', '')
+            
+            if not telefone and not email:
+                return  # Não tem dados suficientes
+            
+            # Buscar lead existente
+            existing_lead = None
+            if telefone:
+                result = self.supabase.table('leads').select('*').eq('telefone', telefone).execute()
+                if result.data:
+                    existing_lead = result.data[0]
+            
+            if not existing_lead and email:
+                result = self.supabase.table('leads').select('*').eq('email', email).execute()
+                if result.data:
+                    existing_lead = result.data[0]
+            
+            if existing_lead:
+                # Lead já existe - atualizar status para 'fechado'
+                self.supabase.table('leads').update({
+                    'status': 'fechado',
+                    'ultima_interacao': venda_data.get('data_venda'),
+                    'valor_estimado': venda_data.get('valor'),
+                    'updated_at': datetime.now().isoformat()
+                }).eq('id', existing_lead['id']).execute()
+                
+                st.success(f"✅ Lead existente atualizado para 'fechado': {nome}")
+            else:
+                # Criar novo lead
+                lead_data = {
+                    'nome': nome,
+                    'telefone': telefone or '',
+                    'email': email or '',
+                    'instagram': venda_data.get('cliente_instagram', ''),
+                    'vendedor': venda_data.get('vendedor'),
+                    'status': 'fechado',  # Cliente que comprou
+                    'origem': 'Venda',
+                    'score': 10,  # Score máximo para quem comprou
+                    'valor_estimado': venda_data.get('valor'),
+                    'ultima_interacao': venda_data.get('data_venda'),
+                    'nota': f"Lead criado automaticamente da venda. Produto: {venda_data.get('produto', 'N/A')}",
+                    'tags': ['Cliente', 'Venda Fechada'],
+                    'created_at': datetime.now().isoformat()
+                }
+                
+                result = self.supabase.table('leads').insert(lead_data).execute()
+                st.success(f"🎯 Lead criado automaticamente: {nome} (status: fechado)")
+                
+        except Exception as e:
+            # Não quebrar o processo de venda se der erro no lead
+            st.warning(f"⚠️ Venda criada, mas houve erro ao criar lead automaticamente: {e}")
+            pass
     
     def update_venda(self, venda_id, venda_data):
         """Atualiza venda existente"""

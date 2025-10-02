@@ -50,7 +50,10 @@ def show_page():
             
             observacoes = st.text_area("📝 Observações", placeholder="Detalhes adicionais sobre a venda...")
             
-            submitted = st.form_submit_button("🚀 Adicionar Venda", type="primary", use_container_width=True)
+            # Info sobre auto-criação de lead
+            st.info("🎯 **INTELIGÊNCIA AUTOMÁTICA:** Ao adicionar esta venda, um lead será criado automaticamente com status 'fechado' se a pessoa não existir na base de leads!")
+            
+            submitted = st.form_submit_button("🚀 Adicionar Venda + Lead Automático", type="primary", use_container_width=True)
             
             if submitted:
                 if not cliente_nome or not produto or valor <= 0:
