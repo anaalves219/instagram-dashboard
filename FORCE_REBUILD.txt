@@ -1,9 +1,9 @@
-This file forces a complete rebuild - timestamp: 2024-10-02 01:15
+This file forces a complete rebuild - timestamp: 2024-10-02 01:20
+URGENT RLS FIX: Script fix_rls_urgent.sql criado para resolver erro imediatamente
 FEATURE: AUTO-CRIAÇÃO DE LEADS A PARTIR DE VENDAS IMPLEMENTADA
 INTELIGÊNCIA: Venda cria lead automaticamente se não existir
 SMART UPDATE: Lead existente atualizado para 'fechado' automaticamente
 CRITICAL FIX: UnboundLocalError datetime import duplicado corrigido
 COMPLETE RLS SYSTEM - TABLES AND VIEWS CORRECTLY HANDLED
-SMART RLS: TODOS VEEM TUDO - CADA UM EDITA O SEU
 SIDEBAR COMPLETELY LOCKED - NO COLLAPSE OPTION REMOVED
 LEADS PAGE UPDATED WITH ADVANCED FEATURES

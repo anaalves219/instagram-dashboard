@@ -90,7 +90,14 @@ Após configurar:
 ### ⚠️ "ROW LEVEL SECURITY VIOLATION" (MAIS COMUM)
 **ERRO:** `new row violates row-level security policy`
 
-**SOLUÇÃO RÁPIDA:**
+**SOLUÇÃO URGENTE (RECOMENDADA):**
+1. Vá no **Supabase SQL Editor**
+2. Copie todo conteúdo do arquivo `fix_rls_urgent.sql`
+3. Execute no SQL Editor
+4. Clique "Run"
+5. ✅ **PROBLEMA RESOLVIDO IMEDIATAMENTE**
+
+**SOLUÇÃO ALTERNATIVA:**
 1. Vá no **Supabase SQL Editor**
 2. Copie todo conteúdo do arquivo `fix_rls_policies.sql`
 3. Execute no SQL Editor
