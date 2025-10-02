@@ -1,4 +1,5 @@
-This file forces a complete rebuild - timestamp: 2024-10-02 01:35
+This file forces a complete rebuild - timestamp: 2024-10-02 01:40
+GUIDE: Guia completo TOML configuration criado
 FEATURE: LOGIN COM GOOGLE OAUTH IMPLEMENTADO
 HYBRID AUTH: Sistema híbrido - login tradicional + Google OAuth
 SECURITY: E-mails autorizados controlados por whitelist

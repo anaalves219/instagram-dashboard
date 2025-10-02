@@ -11,7 +11,7 @@ REDIRECT_URI = "https://your-app.streamlit.app"  # Será atualizado após deploy
 
 # E-mails autorizados para acessar o sistema
 AUTHORIZED_EMAILS = {
-    "ana.vendedora@gmail.com": {
+    "anaflavia219@gmail.com": {
         "name": "Ana",
         "role": "vendedora",
         "theme": {"primary": "#9D4EDD", "secondary": "#06FFA5"}
