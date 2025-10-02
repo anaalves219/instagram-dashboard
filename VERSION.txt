@@ -1,0 +1,12 @@
+VERSÃO: 3.0 - LEADS AVANÇADO
+DATA: 02/10/2024 00:30
+FUNCIONALIDADES:
+- Pipeline visual com funil Plotly
+- Follow-up com classificação de urgência  
+- Cards organizados por status
+- Métricas em tempo real
+- Relatórios analíticos
+- Correção st.datetime_input
+- Interface responsiva
+
+FORÇA REBUILD COMPLETO
