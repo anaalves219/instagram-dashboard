@@ -29,15 +29,21 @@ def get_google_auth_url():
     if not GOOGLE_CLIENT_ID:
         return None
         
-    auth_url = (
-        "https://accounts.google.com/o/oauth2/auth?"
-        f"client_id={GOOGLE_CLIENT_ID}&"
-        f"redirect_uri={REDIRECT_URI}&"
-        "scope=openid email profile&"
-        "response_type=code&"
-        "access_type=offline&"
-        "prompt=consent"
-    )
+    import urllib.parse
+    
+    # Parâmetros OAuth2
+    params = {
+        "client_id": GOOGLE_CLIENT_ID,
+        "redirect_uri": REDIRECT_URI,
+        "scope": "openid email profile",
+        "response_type": "code",
+        "access_type": "offline",
+        "prompt": "consent",
+        "state": "streamlit_oauth"
+    }
+    
+    # URL correta do Google OAuth2
+    auth_url = "https://accounts.google.com/o/oauth2/v2/auth?" + urllib.parse.urlencode(params)
     return auth_url
 
 def exchange_code_for_token(code):
@@ -45,7 +51,7 @@ def exchange_code_for_token(code):
     if not GOOGLE_CLIENT_ID or not GOOGLE_CLIENT_SECRET:
         return None
         
-    token_url = "https://oauth2.googleapis.com/token"
+    token_url = "https://www.googleapis.com/oauth2/v4/token"
     
     data = {
         "client_id": GOOGLE_CLIENT_ID,
@@ -59,14 +65,16 @@ def exchange_code_for_token(code):
         response = requests.post(token_url, data=data)
         if response.status_code == 200:
             return response.json()
-        return None
+        else:
+            st.error(f"Erro OAuth: {response.status_code} - {response.text}")
+            return None
     except Exception as e:
         st.error(f"Erro ao trocar código por token: {e}")
         return None
 
 def get_user_info(access_token):
     """Obtém informações do usuário usando o token de acesso"""
-    user_info_url = f"https://www.googleapis.com/oauth2/v2/userinfo?access_token={access_token}"
+    user_info_url = f"https://www.googleapis.com/oauth2/v1/userinfo?access_token={access_token}"
     
     try:
         response = requests.get(user_info_url)
