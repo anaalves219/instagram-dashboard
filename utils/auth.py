@@ -6,13 +6,13 @@ from datetime import datetime
 # Configurações de usuários (em produção, mover para secrets)
 USERS = {
     "ana": {
-        "password_hash": "ef92b778bafe771e89245b89ecbc08a44a4e166c06659911881f383d4473e94f",  # senha: ana2024
+        "password_hash": "ec7be197de9fbe3a60c8af23a9ffad7783bb684470c9d137ef4bde4e56354b70",  # senha: ana2024
         "name": "Ana",
         "role": "vendedora",
         "theme": {"primary": "#9D4EDD", "secondary": "#06FFA5"}
     },
     "fernando": {
-        "password_hash": "8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918",  # senha: fernando2024  
+        "password_hash": "8fd97a694b066d5fb4f251eca8bbdf3f5210321230cfab366a028bff435bff68",  # senha: fernando2024  
         "name": "Fernando",
         "role": "vendedor",
         "theme": {"primary": "#0EA5E9", "secondary": "#F97316"}
