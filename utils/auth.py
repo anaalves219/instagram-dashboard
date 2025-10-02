@@ -2,6 +2,7 @@ import streamlit as st
 import hashlib
 import json
 from datetime import datetime
+from .google_auth import authenticate_with_google, show_google_login_button, logout_google
 
 # Configurações de usuários (em produção, mover para secrets)
 USERS = {
@@ -51,7 +52,10 @@ def check_authentication() -> bool:
     return 'authenticated' in st.session_state and st.session_state['authenticated']
 
 def login_page():
-    """Exibe página de login"""
+    """Exibe página de login com opções tradicionais e Google OAuth"""
+    
+    # Verificar autenticação Google primeiro
+    authenticate_with_google()
     
     # CSS customizado para a página de login
     st.markdown("""
@@ -167,6 +171,13 @@ def login_page():
                 else:
                     st.error("❌ Usuário ou senha incorretos")
         
+        # Login com Google
+        st.markdown("---")
+        st.markdown("### 🔐 Ou entre com Google")
+        
+        if show_google_login_button():
+            st.info("🔒 **Acesso Restrito:** Apenas e-mails autorizados podem acessar o sistema")
+        
         # Informações de demo
         st.markdown("---")
         st.markdown("""
@@ -184,9 +195,14 @@ def login_page():
 
 def logout():
     """Realiza logout do usuário"""
-    for key in list(st.session_state.keys()):
-        del st.session_state[key]
-    st.rerun()
+    # Verificar se é logout do Google
+    if st.session_state.get('auth_method') == 'google':
+        logout_google()
+    else:
+        # Logout tradicional
+        for key in list(st.session_state.keys()):
+            del st.session_state[key]
+        st.rerun()
 
 def get_current_user():
     """Retorna informações do usuário atual"""

@@ -1,4 +1,8 @@
-This file forces a complete rebuild - timestamp: 2024-10-02 01:30
+This file forces a complete rebuild - timestamp: 2024-10-02 01:35
+FEATURE: LOGIN COM GOOGLE OAUTH IMPLEMENTADO
+HYBRID AUTH: Sistema híbrido - login tradicional + Google OAuth
+SECURITY: E-mails autorizados controlados por whitelist
+GOOGLE INTEGRATION: OAuth oficial do Google com tokens seguros
 REMOVE: Página Batalha removida do sistema - backup criado
 MENU: Sistema simplificado com 5 páginas principais
 CRITICAL FIX: AttributeError em leads.py - cálculo de dias sem contato corrigido
@@ -6,7 +10,5 @@ URGENT RLS FIX: Script fix_rls_urgent.sql criado para resolver erro imediatament
 FEATURE: AUTO-CRIAÇÃO DE LEADS A PARTIR DE VENDAS IMPLEMENTADA
 INTELIGÊNCIA: Venda cria lead automaticamente se não existir
 SMART UPDATE: Lead existente atualizado para 'fechado' automaticamente
-CRITICAL FIX: UnboundLocalError datetime import duplicado corrigido
-COMPLETE RLS SYSTEM - TABLES AND VIEWS CORRECTLY HANDLED
 SIDEBAR COMPLETELY LOCKED - NO COLLAPSE OPTION REMOVED
 LEADS PAGE UPDATED WITH ADVANCED FEATURES
