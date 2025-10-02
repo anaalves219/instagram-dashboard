@@ -25,88 +25,202 @@ class InstagramSalesCorrelator:
     def _prepare_data(self):
         """Prepara e limpa os dados para análise"""
         
-        # Converter datas
-        self.posts_df['date'] = pd.to_datetime(self.posts_df['date'])
-        self.vendas_df['data'] = pd.to_datetime(self.vendas_df['data'])
-        self.leads_df['created_at'] = pd.to_datetime(self.leads_df['created_at'])
+        # Verificar se DataFrames não estão vazios
+        if self.posts_df.empty or self.vendas_df.empty or self.leads_df.empty:
+            return
         
-        # Adicionar métricas calculadas
-        self.posts_df['viral_score'] = self._calculate_viral_score()
-        self.posts_df['save_rate'] = (self.posts_df['saves'] / self.posts_df['reach'] * 100).round(2)
-        self.posts_df['hour'] = self.posts_df['date'].dt.hour
-        self.posts_df['weekday'] = self.posts_df['date'].dt.day_name()
+        # Converter datas de forma segura
+        try:
+            if 'date' in self.posts_df.columns:
+                self.posts_df['date'] = pd.to_datetime(self.posts_df['date'])
+            
+            # Verificar qual coluna de data usar para vendas
+            if 'data' in self.vendas_df.columns:
+                self.vendas_df['data'] = pd.to_datetime(self.vendas_df['data'])
+            elif 'created_at' in self.vendas_df.columns:
+                self.vendas_df['data'] = pd.to_datetime(self.vendas_df['created_at'])
+                
+            # Verificar qual coluna de data usar para leads
+            if 'created_at' in self.leads_df.columns:
+                self.leads_df['created_at'] = pd.to_datetime(self.leads_df['created_at'])
+            elif 'data' in self.leads_df.columns:
+                self.leads_df['created_at'] = pd.to_datetime(self.leads_df['data'])
+        except Exception as e:
+            print(f"Erro ao converter datas: {e}")
+            return
         
-        # Agrupar vendas e leads por dia
-        self.vendas_daily = self.vendas_df.groupby('data').agg({
-            'valor': 'sum',
-            'cliente': 'count'
-        }).rename(columns={'cliente': 'vendas_count'}).reset_index()
+        # Adicionar métricas calculadas de forma segura
+        if not self.posts_df.empty and all(col in self.posts_df.columns for col in ['saves', 'reach']):
+            self.posts_df['viral_score'] = self._calculate_viral_score()
+            self.posts_df['save_rate'] = (self.posts_df['saves'] / self.posts_df['reach'] * 100).round(2)
+            
+            if 'date' in self.posts_df.columns:
+                self.posts_df['hour'] = self.posts_df['date'].dt.hour
+                self.posts_df['weekday'] = self.posts_df['date'].dt.day_name()
         
-        self.leads_daily = self.leads_df.groupby(self.leads_df['created_at'].dt.date).agg({
-            'nome': 'count',
-            'origem': lambda x: (x == 'Instagram').sum()
-        }).rename(columns={'nome': 'leads_count', 'origem': 'leads_instagram'}).reset_index()
-        self.leads_daily['created_at'] = pd.to_datetime(self.leads_daily['created_at'])
+        # Agrupar vendas e leads por dia de forma segura
+        try:
+            if not self.vendas_df.empty and 'data' in self.vendas_df.columns:
+                valor_col = 'valor' if 'valor' in self.vendas_df.columns else 'preco'
+                cliente_col = 'cliente' if 'cliente' in self.vendas_df.columns else 'nome'
+                
+                self.vendas_daily = self.vendas_df.groupby('data').agg({
+                    valor_col: 'sum',
+                    cliente_col: 'count'
+                }).rename(columns={cliente_col: 'vendas_count', valor_col: 'valor'}).reset_index()
+            else:
+                self.vendas_daily = pd.DataFrame()
+            
+            if not self.leads_df.empty and 'created_at' in self.leads_df.columns:
+                nome_col = 'nome' if 'nome' in self.leads_df.columns else 'cliente'
+                
+                agg_dict = {nome_col: 'count'}
+                if 'origem' in self.leads_df.columns:
+                    agg_dict['origem'] = lambda x: (x == 'Instagram').sum()
+                
+                self.leads_daily = self.leads_df.groupby(self.leads_df['created_at'].dt.date).agg(agg_dict)
+                
+                # Renomear colunas
+                rename_dict = {nome_col: 'leads_count'}
+                if 'origem' in agg_dict:
+                    rename_dict['origem'] = 'leads_instagram'
+                
+                self.leads_daily = self.leads_daily.rename(columns=rename_dict).reset_index()
+                self.leads_daily['created_at'] = pd.to_datetime(self.leads_daily['created_at'])
+            else:
+                self.leads_daily = pd.DataFrame()
+                
+        except Exception as e:
+            print(f"Erro ao agrupar dados: {e}")
+            self.vendas_daily = pd.DataFrame()
+            self.leads_daily = pd.DataFrame()
         
     def _calculate_viral_score(self) -> pd.Series:
         """Calcula score viral baseado em múltiplas métricas"""
         
-        # Normalizar métricas (0-100)
-        reach_norm = (self.posts_df['reach'] / self.posts_df['reach'].max() * 100)
-        engagement_norm = (self.posts_df['engagement_rate'] / self.posts_df['engagement_rate'].max() * 100)
-        saves_norm = (self.posts_df['saves'] / self.posts_df['saves'].max() * 100)
-        comments_norm = (self.posts_df['comments'] / self.posts_df['comments'].max() * 100)
+        if self.posts_df.empty:
+            return pd.Series([])
         
-        # Peso para cada métrica
-        viral_score = (
-            reach_norm * 0.3 +           # 30% reach
-            engagement_norm * 0.25 +     # 25% engagement
-            saves_norm * 0.25 +          # 25% saves (indicador forte)
-            comments_norm * 0.20         # 20% comments
-        ).round(1)
-        
-        return viral_score
+        try:
+            # Verificar se as colunas necessárias existem
+            required_cols = ['reach', 'engagement_rate', 'saves', 'comments']
+            missing_cols = [col for col in required_cols if col not in self.posts_df.columns]
+            
+            if missing_cols:
+                print(f"Colunas ausentes para viral score: {missing_cols}")
+                return pd.Series([50.0] * len(self.posts_df))  # Score padrão
+            
+            # Normalizar métricas (0-100) com proteção contra divisão por zero
+            reach_max = self.posts_df['reach'].max()
+            engagement_max = self.posts_df['engagement_rate'].max()
+            saves_max = self.posts_df['saves'].max()
+            comments_max = self.posts_df['comments'].max()
+            
+            reach_norm = (self.posts_df['reach'] / reach_max * 100) if reach_max > 0 else 0
+            engagement_norm = (self.posts_df['engagement_rate'] / engagement_max * 100) if engagement_max > 0 else 0
+            saves_norm = (self.posts_df['saves'] / saves_max * 100) if saves_max > 0 else 0
+            comments_norm = (self.posts_df['comments'] / comments_max * 100) if comments_max > 0 else 0
+            
+            # Peso para cada métrica
+            viral_score = (
+                reach_norm * 0.3 +           # 30% reach
+                engagement_norm * 0.25 +     # 25% engagement
+                saves_norm * 0.25 +          # 25% saves (indicador forte)
+                comments_norm * 0.20         # 20% comments
+            ).round(1)
+            
+            return viral_score
+            
+        except Exception as e:
+            print(f"Erro ao calcular viral score: {e}")
+            return pd.Series([50.0] * len(self.posts_df))  # Score padrão
     
     def analyze_saves_to_sales(self) -> Dict[str, Any]:
         """Correlação: Posts com mais Saves → Dias com mais vendas"""
         
-        # Posts por dia com save rate
-        posts_daily = self.posts_df.groupby(self.posts_df['date'].dt.date).agg({
-            'saves': 'sum',
-            'reach': 'sum',
-            'engagement_rate': 'mean'
-        }).reset_index()
-        posts_daily['date'] = pd.to_datetime(posts_daily['date'])
-        posts_daily['save_rate'] = (posts_daily['saves'] / posts_daily['reach'] * 100).round(2)
-        
-        # Merge com vendas
-        merged = pd.merge(posts_daily, self.vendas_daily, left_on='date', right_on='data', how='inner')
-        
-        if len(merged) < 3:
-            return {'correlation': 0, 'insight': 'Dados insuficientes para análise', 'data': merged}
-        
-        # Calcular correlação
-        correlation = merged['save_rate'].corr(merged['valor'])
-        
-        # Top posts com mais saves
-        top_saves_posts = self.posts_df.nlargest(5, 'saves')[['date', 'caption', 'saves', 'type']]
-        
-        # Insight automático
-        if correlation > 0.6:
-            insight = f"🔥 FORTE correlação! Posts com mais saves aumentam vendas em {correlation*100:.0f}%"
-        elif correlation > 0.3:
-            insight = f"📈 Correlação moderada: saves impactam vendas em {correlation*100:.0f}%"
-        else:
-            insight = f"⚠️ Baixa correlação: saves não impactam diretamente vendas"
-        
-        return {
-            'correlation': round(correlation, 3),
-            'insight': insight,
-            'data': merged,
-            'top_saves_posts': top_saves_posts,
-            'best_save_rate': posts_daily['save_rate'].max(),
-            'avg_save_rate': posts_daily['save_rate'].mean()
-        }
+        try:
+            if self.posts_df.empty or self.vendas_daily.empty:
+                return {
+                    'correlation': 0, 
+                    'insight': 'Dados insuficientes para análise de correlação',
+                    'data': pd.DataFrame(),
+                    'top_saves_posts': pd.DataFrame(),
+                    'best_save_rate': 0,
+                    'avg_save_rate': 0
+                }
+            
+            # Verificar se as colunas necessárias existem
+            if 'date' not in self.posts_df.columns or 'saves' not in self.posts_df.columns:
+                return {
+                    'correlation': 0, 
+                    'insight': 'Colunas necessárias não encontradas nos dados de posts',
+                    'data': pd.DataFrame(),
+                    'top_saves_posts': pd.DataFrame(),
+                    'best_save_rate': 0,
+                    'avg_save_rate': 0
+                }
+            
+            # Posts por dia com save rate
+            posts_daily = self.posts_df.groupby(self.posts_df['date'].dt.date).agg({
+                'saves': 'sum',
+                'reach': 'sum',
+                'engagement_rate': 'mean'
+            }).reset_index()
+            posts_daily['date'] = pd.to_datetime(posts_daily['date'])
+            posts_daily['save_rate'] = (posts_daily['saves'] / posts_daily['reach'] * 100).round(2)
+            
+            # Merge com vendas
+            merged = pd.merge(posts_daily, self.vendas_daily, left_on='date', right_on='data', how='inner')
+            
+            if len(merged) < 3:
+                return {
+                    'correlation': 0, 
+                    'insight': 'Dados insuficientes para análise (menos de 3 pontos)',
+                    'data': merged,
+                    'top_saves_posts': pd.DataFrame(),
+                    'best_save_rate': posts_daily['save_rate'].max() if not posts_daily.empty else 0,
+                    'avg_save_rate': posts_daily['save_rate'].mean() if not posts_daily.empty else 0
+                }
+            
+            # Calcular correlação
+            correlation = merged['save_rate'].corr(merged['valor'])
+            if pd.isna(correlation):
+                correlation = 0
+            
+            # Top posts com mais saves
+            required_cols = ['date', 'saves']
+            optional_cols = ['caption', 'type']
+            
+            available_cols = [col for col in required_cols + optional_cols if col in self.posts_df.columns]
+            top_saves_posts = self.posts_df.nlargest(5, 'saves')[available_cols] if 'saves' in self.posts_df.columns else pd.DataFrame()
+            
+            # Insight automático
+            if correlation > 0.6:
+                insight = f"🔥 FORTE correlação! Posts com mais saves aumentam vendas em {abs(correlation)*100:.0f}%"
+            elif correlation > 0.3:
+                insight = f"📈 Correlação moderada: saves impactam vendas em {abs(correlation)*100:.0f}%"
+            else:
+                insight = f"⚠️ Baixa correlação: saves não impactam diretamente vendas"
+            
+            return {
+                'correlation': round(correlation, 3),
+                'insight': insight,
+                'data': merged,
+                'top_saves_posts': top_saves_posts,
+                'best_save_rate': posts_daily['save_rate'].max() if not posts_daily.empty else 0,
+                'avg_save_rate': posts_daily['save_rate'].mean() if not posts_daily.empty else 0
+            }
+            
+        except Exception as e:
+            print(f"Erro em analyze_saves_to_sales: {e}")
+            return {
+                'correlation': 0,
+                'insight': 'Erro na análise de correlação',
+                'data': pd.DataFrame(),
+                'top_saves_posts': pd.DataFrame(),
+                'best_save_rate': 0,
+                'avg_save_rate': 0
+            }
     
     def analyze_stories_to_leads(self) -> Dict[str, Any]:
         """Análise: Stories com links → Leads gerados"""
