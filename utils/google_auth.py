@@ -7,7 +7,7 @@ import hashlib
 # Configurações OAuth Google
 GOOGLE_CLIENT_ID = st.secrets.get("GOOGLE_CLIENT_ID", "")
 GOOGLE_CLIENT_SECRET = st.secrets.get("GOOGLE_CLIENT_SECRET", "")
-REDIRECT_URI = "https://your-app.streamlit.app"  # Será atualizado após deploy
+REDIRECT_URI = "https://instagram-dashboard-8vfqbyyrmfbnpmsbl3mbts.streamlit.app"
 
 # E-mails autorizados para acessar o sistema
 AUTHORIZED_EMAILS = {
