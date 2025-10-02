@@ -4,6 +4,18 @@ from datetime import datetime, date
 from utils.database import Database
 from utils.auth import get_current_user
 
+def format_instagram_link(instagram_value):
+    """Formata o Instagram como link clicável que abre em nova aba"""
+    if not instagram_value:
+        return ""
+    
+    instagram_handle = instagram_value.replace('@', '').strip()
+    if not instagram_handle:
+        return ""
+    
+    instagram_url = f"https://instagram.com/{instagram_handle}"
+    return f'📱 <a href="{instagram_url}" target="_blank">@{instagram_handle}</a>'
+
 def show_page():
     """Página de Leads - Sistema de pipeline de vendas v3.0"""
     
@@ -223,7 +235,9 @@ def show_page():
                             if lead.get('telefone'):
                                 st.caption(f"📞 {lead['telefone']}")
                             if lead.get('instagram'):
-                                st.caption(f"📱 {lead['instagram']}")
+                                instagram_link = format_instagram_link(lead['instagram'])
+                                if instagram_link:
+                                    st.markdown(instagram_link, unsafe_allow_html=True)
                         
                         with col2:
                             st.markdown(f"🎯 **{lead['vendedor']}**")
@@ -350,7 +364,15 @@ def show_page():
                     
                     with col1:
                         st.markdown(f"**{lead['nome']}** ⭐ {lead['score']}/10")
-                        st.caption(f"📞 {lead['telefone']} | 📱 {lead.get('instagram', '')}")
+                        # Telefone e Instagram
+                        contato_text = f"📞 {lead['telefone']}"
+                        
+                        # Instagram clicável
+                        instagram_link = format_instagram_link(lead.get('instagram', ''))
+                        if instagram_link:
+                            contato_text += f" | {instagram_link}"
+                        
+                        st.markdown(contato_text, unsafe_allow_html=True)
                     
                     with col2:
                         st.markdown(f"🎯 {lead['vendedor']}")
