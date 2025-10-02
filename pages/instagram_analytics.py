@@ -883,60 +883,60 @@ def show_page():
             instagram_leads = len(leads_df[leads_df['origem'] == 'Instagram']) if 'origem' in leads_df.columns else 0
             total_leads = len(leads_df)
             conversion_rate = (instagram_leads / total_leads * 100) if total_leads > 0 else 8.3
-        
-        # Melhor tipo de conteúdo de forma segura
-        if 'type' in posts_df.columns and 'engagement_rate' in posts_df.columns:
-            try:
-                best_content = posts_df.groupby('type')['engagement_rate'].mean().idxmax()
-                best_engagement = posts_df.groupby('type')['engagement_rate'].mean().max()
-                content_names = {'VIDEO': 'Reels', 'IMAGE': 'Fotos', 'CAROUSEL_ALBUM': 'Carrosséis'}
-                best_content_name = content_names.get(best_content, best_content)
-            except:
+            
+            # Melhor tipo de conteúdo de forma segura
+            if 'type' in posts_df.columns and 'engagement_rate' in posts_df.columns:
+                try:
+                    best_content = posts_df.groupby('type')['engagement_rate'].mean().idxmax()
+                    best_engagement = posts_df.groupby('type')['engagement_rate'].mean().max()
+                    content_names = {'VIDEO': 'Reels', 'IMAGE': 'Fotos', 'CAROUSEL_ALBUM': 'Carrosséis'}
+                    best_content_name = content_names.get(best_content, best_content)
+                except Exception:
+                    best_content_name = "Reels"
+                    best_engagement = 12.4
+            else:
                 best_content_name = "Reels"
                 best_engagement = 12.4
-        else:
-            best_content_name = "Reels"
-            best_engagement = 12.4
+            
+            col1, col2, col3, col4 = st.columns(4)
+            
+            with col1:
+                st.markdown("#### 💰 ROI por Post")
+                st.metric("Retorno Médio", f"R$ {avg_roi_per_post:.0f}", delta=f"+R$ {avg_roi_per_post * 0.15:.0f} vs mês anterior")
+                st.caption(f"Baseado em {total_posts} posts analisados")
         
-        col1, col2, col3, col4 = st.columns(4)
+            with col2:
+                st.markdown("#### 🚀 Conteúdo Viral")
+                viral_percentage = (viral_posts / total_posts * 100) if total_posts > 0 else 0
+                st.metric("Posts Virais", f"{viral_posts}", delta=f"{viral_percentage:.1f}% do total")
+                st.caption("Score viral > 75 pontos")
         
-        with col1:
-            st.markdown("#### 💰 ROI por Post")
-            st.metric("Retorno Médio", f"R$ {avg_roi_per_post:.0f}", delta=f"+R$ {avg_roi_per_post * 0.15:.0f} vs mês anterior")
-            st.caption(f"Baseado em {total_posts} posts analisados")
+            with col3:
+                st.markdown("#### 🎯 Leads Instagram")
+                st.metric("Conversão", f"{conversion_rate:.1f}%", delta=f"+{conversion_rate * 0.1:.1f}% vs anterior")
+                st.caption(f"{instagram_leads} de {total_leads} leads totais")
         
-        with col2:
-            st.markdown("#### 🚀 Conteúdo Viral")
-            viral_percentage = (viral_posts / total_posts * 100) if total_posts > 0 else 0
-            st.metric("Posts Virais", f"{viral_posts}", delta=f"{viral_percentage:.1f}% do total")
-            st.caption("Score viral > 75 pontos")
+            with col4:
+                st.markdown("#### 🏆 Melhor Formato")
+                st.metric(best_content_name, f"{best_engagement:.1f}%", delta="+3.1% engagement")
+                st.caption("Maior taxa de conversão")
         
-        with col3:
-            st.markdown("#### 🎯 Leads Instagram")
-            st.metric("Conversão", f"{conversion_rate:.1f}%", delta=f"+{conversion_rate * 0.1:.1f}% vs anterior")
-            st.caption(f"{instagram_leads} de {total_leads} leads totais")
+            # Insights destacados
+            st.markdown("#### 🎯 Ações Recomendadas Agora")
+            
+            col1, col2 = st.columns(2)
         
-        with col4:
-            st.markdown("#### 🏆 Melhor Formato")
-            st.metric(best_content_name, f"{best_engagement:.1f}%", delta="+3.1% engagement")
-            st.caption("Maior taxa de conversão")
+            with col1:
+                st.success("**✅ PRIORIDADE ALTA**")
+                st.markdown(f"• Publique mais **{best_content_name.lower()}** - {best_engagement:.0f}% mais efetivo")
+                st.markdown(f"• Foque em conteúdo que gere **saves** - correlação forte com vendas")
+                st.markdown(f"• Poste às **20h** - horário de maior conversão")
         
-        # Insights destacados
-        st.markdown("#### 🎯 Ações Recomendadas Agora")
-        
-        col1, col2 = st.columns(2)
-        
-        with col1:
-            st.success("**✅ PRIORIDADE ALTA**")
-            st.markdown(f"• Publique mais **{best_content_name.lower()}** - {best_engagement:.0f}% mais efetivo")
-            st.markdown(f"• Foque em conteúdo que gere **saves** - correlação forte com vendas")
-            st.markdown(f"• Poste às **20h** - horário de maior conversão")
-        
-        with col2:
-            st.info("**💡 OPORTUNIDADES**")
-            st.markdown(f"• Stories com link às **20h** geram +40% clicks")
-            st.markdown(f"• Hashtag **#dermato** trouxe leads mais qualificados")
-            st.markdown(f"• Carrosséis convertem **2.3x mais** que fotos")
+            with col2:
+                st.info("**💡 OPORTUNIDADES**")
+                st.markdown(f"• Stories com link às **20h** geram +40% clicks")
+                st.markdown(f"• Hashtag **#dermato** trouxe leads mais qualificados")
+                st.markdown(f"• Carrosséis convertem **2.3x mais** que fotos")
         
         except Exception as e:
             st.warning(f"⚠️ Erro no resumo executivo: Usando valores padrão")
