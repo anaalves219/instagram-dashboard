@@ -43,16 +43,14 @@ def show_page():
                 instagram = st.text_input("📱 Instagram", placeholder="@mariasilva")
                 telefone = st.text_input("📞 Telefone *", placeholder="(11) 99999-9999")
                 email = st.text_input("📧 E-mail", placeholder="maria@email.com")
-                origem = st.selectbox("📍 Origem do Lead", [
-                    "Instagram", "WhatsApp", "Indicação", "Site", "Evento", "Anúncio Facebook", "Google Ads", "Outros"
-                ])
+                origem = st.selectbox("📍 Origem do Lead", 
+                    ["Instagram", "WhatsApp", "Indicacao", "Site", "Evento", "Facebook Ads", "Google Ads", "Outros"])
             
             with col2:
                 vendedor = st.selectbox("🎯 Vendedor Responsável *", ["Ana", "Fernando"],
                                       index=0 if user_info.get('name') == 'Ana' else 1)
-                status = st.selectbox("📊 Status Inicial", [
-                    "novo", "contatado", "interessado", "negociacao", "fechado", "perdido"
-                ])
+                status = st.selectbox("📊 Status Inicial", 
+                    ["novo", "contatado", "interessado", "negociacao", "fechado", "perdido"])
                 score = st.slider("⭐ Score do Lead", 1, 10, 5, 
                                 help="1 = Pouco interesse, 10 = Muito interessado")
                 valor_estimado = st.number_input("💰 Valor Estimado", min_value=0.0, value=1997.0, step=100.0)
@@ -64,10 +62,9 @@ def show_page():
             nota = st.text_area("📝 Anotações", placeholder="Informações importantes sobre o lead...")
             
             # Tags
-            tags = st.multiselect("🏷️ Tags", [
-                "Hot Lead", "Decisor", "Orçamento OK", "Urgente", "Follow-up", 
-                "Competitor", "Networking", "Referral", "High Value"
-            ])
+            tags = st.multiselect("🏷️ Tags", 
+                ["Hot Lead", "Decisor", "Orcamento OK", "Urgente", "Follow-up", 
+                 "Competitor", "Networking", "Referral", "High Value"])
             
             submitted = st.form_submit_button("🚀 Adicionar Lead", type="primary", use_container_width=True)
             
